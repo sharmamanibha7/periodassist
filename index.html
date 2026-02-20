@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Period Assist</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <h1 class="logo">Period Assist</h1>
+    <p class="tagline">Your cycle, your rhythm, your insights</p>
+  </header>
+
+  <main class="main">
+    <!-- 1. Connect Apple Health -->
+    <section class="card connect-health">
+      <h2>Connect Apple Health</h2>
+      <p>Export your cycle data from the Health app, then upload the CSV below. Connecting opens the Health app so you can export cycle tracking data.</p>
+      <a href="x-apple-health://browse" id="btn-apple-health" class="btn btn-primary" target="_blank" rel="noopener">
+        Open Health app
+      </a>
+      <p class="hint">On this device, tap the button above. Then: <strong>Browse → Cycle Tracking</strong> and export your data as CSV.</p>
+    </section>
+
+    <!-- 3. Upload / Parse CSV -->
+    <section class="card upload-csv">
+      <h2>Upload cycle data (CSV)</h2>
+      <p>Upload a CSV with your cycle dates. Supported formats: <code>start_date,end_date</code> for each period, or <code>date,type</code> (e.g. period_start, period_end).</p>
+      <div class="upload-zone" id="upload-zone">
+        <input type="file" id="csv-input" accept=".csv" hidden>
+        <span class="upload-text">Drop CSV here or click to choose</span>
+      </div>
+      <p id="csv-status" class="status" aria-live="polite"></p>
+      <p class="or-divider">Or add last period date for estimate</p>
+      <div class="last-period-row">
+        <label for="last-period-date" class="visually-hidden">Last period start date</label>
+        <input type="date" id="last-period-date" class="input-date">
+        <button type="button" id="add-last-period-btn" class="btn btn-primary">Add</button>
+      </div>
+    </section>
+
+    <!-- 4. Calendar + Tag period days -->
+    <section class="card calendar-section">
+      <h2>Your cycle calendar</h2>
+      <p>Period days are highlighted. Tap a day to mark it as a <strong>high-focus day</strong> and get a link to add a calendar event.</p>
+      <div class="calendar-controls">
+        <button type="button" id="prev-month" class="btn btn-icon" aria-label="Previous month">←</button>
+        <h3 id="calendar-month-label"></h3>
+        <button type="button" id="next-month" class="btn btn-icon" aria-label="Next month">→</button>
+      </div>
+      <div id="calendar-grid" class="calendar-grid" role="grid" aria-label="Calendar"></div>
+      <div id="day-detail" class="day-detail hidden">
+        <h4 id="day-detail-date"></h4>
+        <div id="day-detail-phase" class="phase-block"></div>
+        <label class="focus-toggle">
+          <input type="checkbox" id="high-focus-day"> High focus day?
+        </label>
+        <a id="add-to-calendar-link" class="btn btn-secondary hidden" href="#" target="_blank" rel="noopener">Add to calendar</a>
+      </div>
+    </section>
+
+    <!-- Phase guide: Today -->
+    <section class="card phase-today" id="phase-today-card">
+      <h2>Today’s phase</h2>
+      <div id="phase-today-content"></div>
+      <p class="phase-disclaimer">It is important to listen to your body, as everyone's cycle differs. If you feel tired, allow for rest regardless of the phase.</p>
+    </section>
+
+    <!-- 5. Insights -->
+    <section class="card insights">
+      <h2>Insights</h2>
+      <div id="insights-content">
+        <p id="insights-avg-cycle" class="insight-line">Average cycle length: —</p>
+        <p id="insights-luteal" class="insight-line">Luteal phase note: —</p>
+        <p class="insight-note">With more cycle data, we’ll show how your luteal phase correlates with focus and output (e.g. “~20% less content output” during luteal).</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Data stays in your browser. Nothing is sent to any server.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
